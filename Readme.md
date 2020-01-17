@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Alexandra Panteleeva](https://up.htmlacademy.ru/javascript/19/user/645603).
-* Наставник: `Неизвестно`.
+* Наставник: [Артём Матковский](https://htmlacademy.ru/profile/id1151767).
 
 ---
 

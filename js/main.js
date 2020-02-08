@@ -13,6 +13,8 @@ var MESSAGES_ARRAY = ['Всё отлично!',
 var NAMES_ARRAY = ['Иван', 'Ирина', 'Игорь', 'Инга', 'Илларион', 'Инна', 'Ингрид'];
 
 // Селекторы
+var otherUserPictures = document.querySelector('.pictures');
+var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 // Функции
 
@@ -54,10 +56,28 @@ var createPhotoArray = function (comments) {
   return photoArray;
 };
 
+var createPhoto = function (photo) {
+  var photoElement = pictureTemplate.cloneNode(true);
+
+  photoElement.querySelector('img').src = photo.url;
+  photoElement.querySelector('.picture__likes').textContent = photo.likes;
+  photoElement.querySelector('.picture__comments').textContent = getRandomInteger(1, 10);
+
+  return photoElement;
+};
+
+var renderPhotos = function (photosArray, container) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < photosArray.length; i++) {
+    fragment.appendChild(createPhoto(photosArray[i]));
+  }
+
+  container.appendChild(fragment);
+};
+
 // Вызовы функций
 
 var commentsArray = createCommentsArray(MESSAGES_ARRAY, NAMES_ARRAY);
+var photosArray = createPhotoArray(commentsArray);
 
-console.log(createCommentsArray(MESSAGES_ARRAY, NAMES_ARRAY));
-
-console.log(createPhotoArray(commentsArray));
+renderPhotos(photosArray, otherUserPictures);

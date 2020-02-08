@@ -3,6 +3,19 @@
 // Константы
 
 var PHOTOS_AMOUNT = 25;
+
+var DESCRIPTIONS_ARRAY = [
+  'иберийский ирис',
+  'ивановские иглы',
+  'ивовый ил',
+  'иглобрюх',
+  'игрушечный инопланетянин',
+  'Интересный инструмент',
+  'Идеальный игрок',
+  'Индивидуальный итог',
+  'идиоматический индюк'
+];
+
 var MESSAGES_ARRAY = ['Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -10,6 +23,7 @@ var MESSAGES_ARRAY = ['Всё отлично!',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+
 var NAMES_ARRAY = ['Иван', 'Ирина', 'Игорь', 'Инга', 'Илларион', 'Инна', 'Ингрид'];
 
 // Селекторы
@@ -24,16 +38,37 @@ var getRandomInteger = function (min, max) {
 };
 
 var getRandomArrayItem = function (array) {
-  return array[getRandomInteger(1, array.length)];
+  return array[getRandomInteger(0, array.length - 1)];
 };
 
-var createCommentsArray = function (messages, names) {
+var createNumberArray = function (maxNumber) {
+  var numberArray = [];
+
+  for (var i = 0; i < maxNumber; i++) {
+    numberArray[i] = i + 1;
+  }
+
+  return numberArray;
+};
+
+var createMessage = function (messagesArray) {
+  var message = '';
+  var messageLength = getRandomInteger(1, 2);
+
+  if (messageLength === 1) {
+    message = getRandomArrayItem(messagesArray);
+  } message = getRandomArrayItem(messagesArray) + '' + getRandomArrayItem(messagesArray);
+
+  return message;
+};
+
+var createCommentsArray = function (messages, names, arrayLength) {
   var commentsArray = [];
 
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < arrayLength; i++) {
     commentsArray[i] = {
       avatar: 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
-      message: getRandomArrayItem(messages),
+      message: createMessage(messages),
       name: getRandomArrayItem(names)
     };
   }
@@ -41,15 +76,17 @@ var createCommentsArray = function (messages, names) {
   return commentsArray;
 };
 
-var createPhotoArray = function (comments) {
+var createPhotoArray = function (descriptions, messages, names) {
   var photoArray = [];
 
   for (var i = 0; i < PHOTOS_AMOUNT; i++) {
+    var comments = createCommentsArray(messages, names, getRandomInteger(0, 10));
+
     photoArray[i] = {
-      url: 'photos/' + getRandomInteger(1, 25) + '.jpg',
-      description: 'описание фотографии',
+      url: 'photos/' + createNumberArray(25)[i] + '.jpg',
+      description: getRandomArrayItem(descriptions),
       likes: getRandomInteger(15, 200),
-      comments: getRandomArrayItem(comments)
+      comments: comments.length
     };
   }
 
@@ -68,6 +105,7 @@ var createPhoto = function (photo) {
 
 var renderPhotos = function (photosArray, container) {
   var fragment = document.createDocumentFragment();
+
   for (var i = 0; i < photosArray.length; i++) {
     fragment.appendChild(createPhoto(photosArray[i]));
   }
@@ -77,7 +115,6 @@ var renderPhotos = function (photosArray, container) {
 
 // Вызовы функций
 
-var commentsArray = createCommentsArray(MESSAGES_ARRAY, NAMES_ARRAY);
-var photosArray = createPhotoArray(commentsArray);
+var photosArray = createPhotoArray(DESCRIPTIONS_ARRAY, MESSAGES_ARRAY, NAMES_ARRAY);
 
 renderPhotos(photosArray, otherUserPictures);

@@ -83,7 +83,7 @@ var createPhotoArray = function (descriptions, messages, names) {
     var comments = createCommentsArray(messages, names, getRandomInteger(0, 10));
 
     photoArray[i] = {
-      url: 'photos/' + createNumberArray(25)[i] + '.jpg',
+      url: 'photos/' + i + '.jpg',
       description: getRandomArrayItem(descriptions),
       likes: getRandomInteger(15, 200),
       comments: comments.length

@@ -41,16 +41,6 @@ var getRandomArrayItem = function (array) {
   return array[getRandomInteger(0, array.length - 1)];
 };
 
-var createNumberArray = function (maxNumber) {
-  var numberArray = [];
-
-  for (var i = 0; i < maxNumber; i++) {
-    numberArray[i] = i + 1;
-  }
-
-  return numberArray;
-};
-
 var createMessage = function (messagesArray) {
   var message = '';
   var messageLength = getRandomInteger(1, 2);

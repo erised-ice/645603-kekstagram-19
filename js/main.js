@@ -27,10 +27,51 @@ var MESSAGES_ARRAY = ['Всё отлично!',
 var NAMES_ARRAY = ['Иван', 'Ирина', 'Игорь', 'Инга', 'Илларион', 'Инна', 'Ингрид'];
 
 // Селекторы
+var body = document.querySelector('body');
 var otherUserPictures = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+var uploadFile = document.querySelector('#upload-file');
+var photoSetupForm = document.querySelector('.img-upload__overlay');
+var uploadCancel = document.querySelector('#upload-cancel');
+var ESC_KEY = 'Escape';
 
 // Функции
+
+var showDomElement = function (element) {
+  element.classList.remove('hidden');
+};
+
+var closeDomeElement = function (element) {
+  element.classList.add('hidden');
+};
+
+var makeBodyUnscrolled = function () {
+  body.classList.add('modal-open');
+};
+
+var makeBodyScrolled = function () {
+  body.classList.remove('modal-open');
+};
+
+var onSetupFormEscPress = function (evt) {
+  if (evt.key === ESC_KEY) {
+    closePhotoSetupForm();
+    document.removeEventListener('keydown', onSetupFormEscPress);
+  }
+};
+
+var openPhotoSetupForm = function () {
+  showDomElement(photoSetupForm);
+  makeBodyUnscrolled();
+  document.addEventListener('keydown', onSetupFormEscPress);
+};
+
+var closePhotoSetupForm = function () {
+  closeDomeElement(photoSetupForm);
+  makeBodyScrolled();
+  document.removeEventListener('keydown', onSetupFormEscPress);
+  uploadFile.removeEventListener('change', openPhotoSetupForm); // не работает
+};
 
 var getRandomInteger = function (min, max) {
   var randomValue = min + Math.random() * (max + 1 - min);
@@ -73,7 +114,7 @@ var createPhotoArray = function (descriptions, messages, names) {
     var comments = createCommentsArray(messages, names, getRandomInteger(0, 10));
 
     photoArray[i] = {
-      url: 'photos/' + i + '.jpg',
+      url: 'photos/' + (i + 1) + '.jpg',
       description: getRandomArrayItem(descriptions),
       likes: getRandomInteger(15, 200),
       comments: comments.length
@@ -108,3 +149,11 @@ var renderPhotos = function (photosArray, container) {
 var photosArray = createPhotoArray(DESCRIPTIONS_ARRAY, MESSAGES_ARRAY, NAMES_ARRAY);
 
 renderPhotos(photosArray, otherUserPictures);
+
+uploadFile.addEventListener('change', function () {
+  openPhotoSetupForm();
+});
+
+uploadCancel.addEventListener('click', function () {
+  closePhotoSetupForm();
+});

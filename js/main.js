@@ -25,6 +25,7 @@ var MESSAGES_ARRAY = ['Всё отлично!',
 ];
 
 var NAMES_ARRAY = ['Иван', 'Ирина', 'Игорь', 'Инга', 'Илларион', 'Инна', 'Ингрид'];
+var ESC_KEY = 'Escape';
 
 // Селекторы
 var body = document.querySelector('body');
@@ -33,7 +34,10 @@ var pictureTemplate = document.querySelector('#picture').content.querySelector('
 var uploadFile = document.querySelector('#upload-file');
 var photoSetupForm = document.querySelector('.img-upload__overlay');
 var uploadCancel = document.querySelector('#upload-cancel');
-var ESC_KEY = 'Escape';
+var effectLevelPin = document.querySelector('.effect-level__pin');
+var effectLevelValue = document.querySelector('.effect-level__value');
+var hashtagsInput = document.querySelector('.text__hashtags');
+var submitUpload = document.querySelector('#upload-submit');
 
 // Функции
 
@@ -70,7 +74,7 @@ var closePhotoSetupForm = function () {
   closeDomeElement(photoSetupForm);
   makeBodyScrolled();
   document.removeEventListener('keydown', onSetupFormEscPress);
-  uploadFile.removeEventListener('change', openPhotoSetupForm); // не работает
+  uploadFile.value = '';
 };
 
 var getRandomInteger = function (min, max) {
@@ -156,4 +160,13 @@ uploadFile.addEventListener('change', function () {
 
 uploadCancel.addEventListener('click', function () {
   closePhotoSetupForm();
+});
+
+effectLevelPin.addEventListener('mouseup', function () {
+  effectLevelValue.value = 0.5;
+});
+
+submitUpload.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  console.log(hashtagsInput.value);
 });

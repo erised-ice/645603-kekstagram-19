@@ -32,7 +32,8 @@ var body = document.querySelector('body');
 var otherUserPictures = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 var uploadFile = document.querySelector('#upload-file');
-var photoSetupForm = document.querySelector('.img-upload__overlay');
+var photoSetupWindow = document.querySelector('.img-upload__overlay');
+var photoSetupForm = document.querySelector('.img-upload__form');
 var uploadCancel = document.querySelector('#upload-cancel');
 var effectLevelPin = document.querySelector('.effect-level__pin');
 var effectLevelValue = document.querySelector('.effect-level__value');
@@ -65,13 +66,13 @@ var onSetupFormEscPress = function (evt) {
 };
 
 var openPhotoSetupForm = function () {
-  showDomElement(photoSetupForm);
+  showDomElement(photoSetupWindow);
   makeBodyUnscrolled();
   document.addEventListener('keydown', onSetupFormEscPress);
 };
 
 var closePhotoSetupForm = function () {
-  closeDomeElement(photoSetupForm);
+  closeDomeElement(photoSetupWindow);
   makeBodyScrolled();
   document.removeEventListener('keydown', onSetupFormEscPress);
   uploadFile.value = '';
@@ -166,7 +167,25 @@ effectLevelPin.addEventListener('mouseup', function () {
   effectLevelValue.value = 0.5;
 });
 
-submitUpload.addEventListener('click', function (evt) {
+photoSetupForm.addEventListener('submit', function (evt) {
+  var hashtagsLowCase = hashtagsInput.value.toLowerCase();
+  console.log(hashtagsLowCase);
+  var hashtagsArray = hashtagsLowCase.split(' ');
+  console.log(hashtagsArray);
   evt.preventDefault();
-  console.log(hashtagsInput.value);
+
+  if (hashtagsArray.length > 5) {
+    hashtagsInput.setCustomValidity('hey');
+    evt.preventDefault();
+  } else {
+    for (var i=0; i < hashtagsArray.length; i++) {
+      if (hashtagsArray[i].length > 20) {
+        console.log(hashtagsArray[i].length);
+        console.log('to long');
+      } else if (hashtagsArray[i].length <= 1) {
+        console.log(hashtagsArray[i].length);
+        console.log('to short');
+      }
+    }
+  }
 });

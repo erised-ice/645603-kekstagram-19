@@ -38,7 +38,6 @@ var uploadCancel = document.querySelector('#upload-cancel');
 var effectLevelPin = document.querySelector('.effect-level__pin');
 var effectLevelValue = document.querySelector('.effect-level__value');
 var hashtagsInput = document.querySelector('.text__hashtags');
-var submitUpload = document.querySelector('#upload-submit');
 
 // Функции
 
@@ -93,7 +92,9 @@ var createMessage = function (messagesArray) {
 
   if (messageLength === 1) {
     message = getRandomArrayItem(messagesArray);
-  } message = getRandomArrayItem(messagesArray) + '' + getRandomArrayItem(messagesArray);
+  } else {
+    message = getRandomArrayItem(messagesArray) + '' + getRandomArrayItem(messagesArray);
+  }
 
   return message;
 };
@@ -169,22 +170,20 @@ effectLevelPin.addEventListener('mouseup', function () {
 
 photoSetupForm.addEventListener('submit', function (evt) {
   var hashtagsLowCase = hashtagsInput.value.toLowerCase();
-  console.log(hashtagsLowCase);
   var hashtagsArray = hashtagsLowCase.split(' ');
-  console.log(hashtagsArray);
   evt.preventDefault();
 
   if (hashtagsArray.length > 5) {
-    hashtagsInput.setCustomValidity('hey');
+    hashtagsInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
     evt.preventDefault();
   } else {
-    for (var i=0; i < hashtagsArray.length; i++) {
+    for (var i = 0; i < hashtagsArray.length; i++) {
       if (hashtagsArray[i].length > 20) {
-        console.log(hashtagsArray[i].length);
-        console.log('to long');
+        hashtagsInput.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
       } else if (hashtagsArray[i].length <= 1) {
-        console.log(hashtagsArray[i].length);
-        console.log('to short');
+        hashtagsInput.setCustomValidity('хеш-тег не может состоять только из одной решётки');
+      } else if (hashtagsArray[i][i] !== '#') {
+        hashtagsInput.setCustomValidity('хэш-тег должен начинаться с символа #');
       }
     }
   }

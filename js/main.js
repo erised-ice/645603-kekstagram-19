@@ -168,22 +168,22 @@ effectLevelPin.addEventListener('mouseup', function () {
   effectLevelValue.value = 0.5;
 });
 
-photoSetupForm.addEventListener('submit', function (evt) {
+hashtagsInput.addEventListener('input', function (evt) {
   var hashtagsLowCase = hashtagsInput.value.toLowerCase();
   var hashtagsArray = hashtagsLowCase.split(' ');
-  evt.preventDefault();
 
   if (hashtagsArray.length > 5) {
     hashtagsInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
-    evt.preventDefault();
   } else {
     for (var i = 0; i < hashtagsArray.length; i++) {
-      if (hashtagsArray[i].length > 20) {
-        hashtagsInput.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+      if (hashtagsArray[i][0] !== '#') {
+        hashtagsInput.setCustomValidity('хэш-тег должен начинаться с символа #');
       } else if (hashtagsArray[i].length <= 1) {
         hashtagsInput.setCustomValidity('хеш-тег не может состоять только из одной решётки');
-      } else if (hashtagsArray[i][i] !== '#') {
-        hashtagsInput.setCustomValidity('хэш-тег должен начинаться с символа #');
+      } else if (hashtagsArray[i].length > 20) {
+        hashtagsInput.setCustomValidity('максимальная длина одного хэш-тега 20 символов, включая решётку');
+      } else {
+        hashtagsInput.setCustomValidity('');
       }
     }
   }

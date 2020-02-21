@@ -6,50 +6,6 @@
     .content
     .querySelector('.picture');
 
-  var createMessage = function (messagesArray) {
-    var message = '';
-    var messageLength = window.util.getRandomInteger(1, 2);
-
-    if (messageLength === 1) {
-      message = window.util.getRandomArrayItem(messagesArray);
-    } else {
-      message = window.util.getRandomArrayItem(messagesArray) + '' + window.util.getRandomArrayItem(messagesArray);
-    }
-
-    return message;
-  };
-
-  var createCommentsArray = function (messages, names, arrayLength) {
-    var commentsArray = [];
-
-    for (var i = 0; i < arrayLength; i++) {
-      commentsArray[i] = {
-        avatar: 'img/avatar-' + window.util.getRandomInteger(1, 6) + '.svg',
-        message: createMessage(messages),
-        name: window.util.getRandomArrayItem(names)
-      };
-    }
-
-    return commentsArray;
-  };
-
-  var createPhotoArray = function (descriptions, messages, names) {
-    var photoArray = [];
-
-    for (var i = 0; i < window.data.PHOTOS_AMOUNT; i++) {
-      var comments = createCommentsArray(messages, names, window.util.getRandomInteger(0, 10));
-
-      photoArray[i] = {
-        url: 'photos/' + (i + 1) + '.jpg',
-        description: window.util.getRandomArrayItem(descriptions),
-        likes: window.util.getRandomInteger(15, 200),
-        comments: comments.length
-      };
-    }
-
-    return photoArray;
-  };
-
   var createPhoto = function (photo) {
     var photoElement = pictureTemplate.cloneNode(true);
 
@@ -60,17 +16,26 @@
     return photoElement;
   };
 
-  var renderPhotos = function (photosArray, container) {
+  var successHandler = function (photosArray) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < photosArray.length; i++) {
+    for (var i = 0; i < 25; i++) {
       fragment.appendChild(createPhoto(photosArray[i]));
     }
 
-    container.appendChild(fragment);
+    otherUserPictures.appendChild(fragment);
   };
 
-  var photosArray = createPhotoArray(window.data.DESCRIPTIONS_ARRAY, window.data.MESSAGES_ARRAY, window.data.NAMES_ARRAY);
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: yellow; color: red; font-weight: bold; letter-spacing: 1px;';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '15px';
 
-  renderPhotos(photosArray, otherUserPictures);
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.load(successHandler, errorHandler);
 })();

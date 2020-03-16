@@ -11,19 +11,30 @@
 
     photoElement.querySelector('img').src = photo.url;
     photoElement.querySelector('.picture__likes').textContent = photo.likes;
-    photoElement.querySelector('.picture__comments').textContent = window.util.getRandomInteger(1, 10);
+    photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
 
     return photoElement;
   };
 
-  var successHandler = function (photosArray) {
+  var renderPhotos = function (photosArray) {
     var fragment = document.createDocumentFragment();
+    var pictures = otherUserPictures.querySelectorAll('.picture');
 
-    for (var i = 0; i < 25; i++) {
-      fragment.appendChild(createPhoto(photosArray[i]));
+    if (pictures.length) {
+      pictures.forEach(function (picture) {
+        otherUserPictures.removeChild(picture);
+      });
     }
 
+    photosArray.forEach(function (photo) {
+      fragment.appendChild(createPhoto(photo));
+    });
+
     otherUserPictures.appendChild(fragment);
+  };
+
+  var successHandler = function (photosArray) {
+    window.filterOtherUserPhotos(photosArray);
   };
 
   var errorHandler = function (errorMessage) {
@@ -38,4 +49,6 @@
   };
 
   window.load(successHandler, errorHandler);
+
+  window.renderPhotos = renderPhotos;
 })();

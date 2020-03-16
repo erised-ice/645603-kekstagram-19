@@ -35,6 +35,7 @@
 
   var successHandler = function (photosArray) {
     window.filterOtherUserPhotos(photosArray);
+    window.showBigPicture(photosArray);
   };
 
   var errorHandler = function (errorMessage) {

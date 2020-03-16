@@ -10,7 +10,7 @@
   var commentCounter = bigPicture.querySelector('.social__comment-count');
   var commentsLoader = bigPicture.querySelector('.comments-loader');
 
-  var openBigPicture = function () {
+  window.openBigPicture = function () {
     window.util.showDomElement(bigPicture);
     window.util.BODY.classList.add('modal-open');
   };
@@ -43,6 +43,4 @@
       });
     }
   };
-
-  openBigPicture();
 })();

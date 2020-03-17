@@ -4,8 +4,11 @@
   var MIN_HASHTAG_LENGTH = 2;
   var MAX_HASHTAG_LENTGH = 20;
   var MAX_HASHTAGS_COUNT = 5;
+  var MAX_COMMENT_LENGTH = 140;
 
   var hashtagsInput = document.querySelector('.text__hashtags');
+  var socialFooterText = document.querySelector('.social__footer-text');
+  var textDescription = document.querySelector('.text__description');
 
   var isUniqueArray = function (array) {
     var uniqueObject = {};
@@ -22,6 +25,14 @@
 
   var isContainSymbols = function (word) {
     return word.match(/^#[a-zA-Z0-9а-яА-Я]+$/);
+  };
+
+  var commentValidation = function (evt) {
+    var target = evt.target;
+
+    if (target.value.length > MAX_COMMENT_LENGTH) {
+      target.setCustomValidity('максимальная длина одного комментария ' + MAX_COMMENT_LENGTH + ' символов.');
+    }
   };
 
   hashtagsInput.addEventListener('input', function () {
@@ -48,4 +59,7 @@
       }
     }
   });
+
+  socialFooterText.addEventListener('input', commentValidation);
+  textDescription.addEventListener('input', commentValidation);
 })();

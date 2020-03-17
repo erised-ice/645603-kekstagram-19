@@ -12,9 +12,9 @@
     photoElement.querySelector('img').src = photo.url;
     photoElement.querySelector('.picture__likes').textContent = photo.likes;
     photoElement.querySelector('.picture__comments').textContent = photo.comments.length;
-    photoElement.addEventListener('click', function (evt) {
-      console.log(evt.target.src);
+    photoElement.addEventListener('click', function () {
       window.openBigPicture();
+      window.showBigPicture(photo);
     });
 
     return photoElement;
@@ -39,7 +39,7 @@
 
   var successHandler = function (photosArray) {
     window.filterOtherUserPhotos(photosArray);
-    window.showBigPicture(photosArray);
+
   };
 
   var errorHandler = function (errorMessage) {

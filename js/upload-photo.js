@@ -5,27 +5,19 @@
   var photoSetupWindow = document.querySelector('.img-upload__overlay');
   var uploadCancel = document.querySelector('#upload-cancel');
 
-  var makeBodyUnscrolled = function () {
-    window.util.BODY.classList.add('modal-open');
-  };
-
-  var makeBodyScrolled = function () {
-    window.util.BODY.classList.remove('modal-open');
-  };
-
   var onSetupFormEscPress = function (evt) {
     window.util.isEscEvent(evt, closePhotoSetupForm);
   };
 
   var openPhotoSetupForm = function () {
     window.util.showDomElement(photoSetupWindow);
-    makeBodyUnscrolled();
+    window.util.makeBodyUnscrolled();
     document.addEventListener('keydown', onSetupFormEscPress);
   };
 
   var closePhotoSetupForm = function () {
     window.util.closeDomElement(photoSetupWindow);
-    makeBodyScrolled();
+    window.util.makeBodyScrolled();
     document.removeEventListener('keydown', onSetupFormEscPress);
     uploadFile.value = '';
   };

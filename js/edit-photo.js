@@ -9,6 +9,7 @@
 
     var startCoords = {
       x: evt.clientX,
+      y: evt.clientY
     };
 
     var onMouseMove = function (moveEvt) {
@@ -16,13 +17,28 @@
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
       };
 
       startCoords = {
         x: moveEvt.clientX,
+        y: moveEvt.clientY
       };
 
+      if (effectLevelPin.offsetLeft <= 0) {
+        effectLevelPin.style.left = '0px';
+      }
+
+      if (effectLevelPin.offsetLeft >= 455) {
+        effectLevelPin.style.left = '455px';
+      }
+
       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift.x) + 'px';
+
+      if (startCoords.y < 620 || startCoords.y > 650 || effectLevelPin.offsetLeft > 460 || effectLevelPin.offsetLeft < -5) {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+      }
     };
 
     var onMouseUp = function (upEvt) {

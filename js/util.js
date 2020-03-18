@@ -6,6 +6,12 @@
 
   window.util = {
     BODY: BODY,
+    makeBodyUnscrolled: function () {
+      window.util.BODY.classList.add('modal-open');
+    },
+    makeBodyScrolled: function () {
+      window.util.BODY.classList.remove('modal-open');
+    },
     isEscEvent: function (evt, action) {
       if (evt.keyCode === ESC_KEYCODE) {
         action();

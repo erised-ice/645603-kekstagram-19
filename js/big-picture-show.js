@@ -26,7 +26,7 @@
 
   var closeBigPicture = function () {
     window.util.closeDomElement(bigPicture);
-    window.util.BODY.classList.remove('modal-open');
+    window.util.makeBodyScrolled();
     document.removeEventListener('keydown', onSetupFormEscPress);
   };
 
@@ -54,7 +54,7 @@
   window.util.closeDomElement(commentsLoader);
   window.openBigPicture = function () {
     window.util.showDomElement(bigPicture);
-    window.util.BODY.classList.add('modal-open');
+    window.util.makeBodyUnscrolled();
     document.addEventListener('keydown', onSetupFormEscPress);
   };
 

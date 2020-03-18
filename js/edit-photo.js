@@ -15,6 +15,7 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      var effectLevelPinMiddle = effectLevelPin.offsetWidth / 2;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -35,7 +36,17 @@
       }
 
       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift.x) + 'px';
-      effectLevelDepth.style.width = (effectLevelPin.offsetLeft - shift.x) / 455 * 100 + '%';
+      effectLevelValue.value = (effectLevelPin.offsetLeft + effectLevelPinMiddle - shift.x) / 455 * 100;
+
+      if (effectLevelValue.value >= 100) {
+        effectLevelValue.value = 100;
+      }
+
+      if (effectLevelValue.value <= 0) {
+        effectLevelValue.value = 0;
+      }
+
+      effectLevelDepth.style.width = effectLevelValue.value + '%';
 
       if (startCoords.y < 620 || startCoords.y > 650 || effectLevelPin.offsetLeft > 460 || effectLevelPin.offsetLeft < -5) {
         document.removeEventListener('mousemove', onMouseMove);

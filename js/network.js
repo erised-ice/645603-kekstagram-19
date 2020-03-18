@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/kekstagram/data';
   var TIMEOUT_IN_MS = 10000;
 
   var StatysCode = {
@@ -9,6 +8,7 @@
   };
 
   window.load = function (onSuccess, onError) {
+    var URL = 'https://js.dump.academy/kekstagram/data';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', URL);
@@ -34,6 +34,7 @@
   };
 
   window.upload = function (data, onSuccess) {
+    var URL = 'https://js.dump.academy/kekstagram';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 

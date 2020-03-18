@@ -2,6 +2,7 @@
 
 (function () {
   var effectLevelPin = document.querySelector('.effect-level__pin');
+  var effectLevelDepth = document.querySelector('.effect-level__depth');
   var effectLevelValue = document.querySelector('.effect-level__value');
 
   effectLevelPin.addEventListener('mousedown', function (evt) {
@@ -34,6 +35,7 @@
       }
 
       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift.x) + 'px';
+      effectLevelDepth.style.width = (effectLevelPin.offsetLeft - shift.x) / 455 * 100 + '%';
 
       if (startCoords.y < 620 || startCoords.y > 650 || effectLevelPin.offsetLeft > 460 || effectLevelPin.offsetLeft < -5) {
         document.removeEventListener('mousemove', onMouseMove);

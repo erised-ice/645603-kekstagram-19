@@ -1,20 +1,20 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/kekstagram/data';
   var TIMEOUT_IN_MS = 10000;
 
-  var StatysCode = {
+  var StatusCode = {
     OK: 200
   };
 
   window.load = function (onSuccess, onError) {
+    var URL = 'https://js.dump.academy/kekstagram/data';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', URL);
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatysCode.OK) {
+      if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -34,11 +34,20 @@
   };
 
   window.upload = function (data, onSuccess) {
+    var URL = 'https://js.dump.academy/kekstagram';
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      onSuccess(xhr.response);
+      if (xhr.status === StatusCode.OK) {
+        onSuccess(xhr.response);
+      } else {
+        window.renderErrorMessage();
+      }
+    });
+
+    xhr.addEventListener('error', function () {
+      window.renderErrorMessage();
     });
 
     xhr.open('POST', URL);

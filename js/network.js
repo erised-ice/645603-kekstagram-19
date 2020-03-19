@@ -3,7 +3,7 @@
 (function () {
   var TIMEOUT_IN_MS = 10000;
 
-  var StatysCode = {
+  var StatusCode = {
     OK: 200
   };
 
@@ -14,7 +14,7 @@
     xhr.open('GET', URL);
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === StatysCode.OK) {
+      if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -39,7 +39,15 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      onSuccess(xhr.response);
+      if (xhr.status === StatusCode.OK) {
+        onSuccess(xhr.response);
+      } else {
+        window.renderErrorMessage();
+      }
+    });
+
+    xhr.addEventListener('error', function () {
+      window.renderErrorMessage();
     });
 
     xhr.open('POST', URL);

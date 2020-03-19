@@ -36,7 +36,7 @@
       }
 
       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift.x) + 'px';
-      effectLevelValue.value = (effectLevelPin.offsetLeft + effectLevelPinMiddle - shift.x) / 455 * 100;
+      effectLevelValue.value = Math.round((effectLevelPin.offsetLeft + effectLevelPinMiddle - shift.x) / 455 * 100);
 
       if (effectLevelValue.value >= 100) {
         effectLevelValue.value = 100;

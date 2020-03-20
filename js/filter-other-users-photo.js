@@ -42,8 +42,22 @@
             filteredPhotosCollection = serverPhotosCollection;
             break;
           case 'filter-random':
-            for (var i = 0; i < 10; i++) {
-              filteredPhotosCollection.push(serverPhotosCollection[i]);
+            var randomArrayItem = null;
+            var checkUnique = function (someArray, element) {
+              return someArray.some(function (item) {
+                return element.url === item.url;
+              });
+            };
+
+            for (var i = 0; i < serverPhotosCollection.length; i++) {
+              randomArrayItem = window.util.getRandomArrayItem(serverPhotosCollection);
+              if (!checkUnique(filteredPhotosCollection, randomArrayItem)) {
+                filteredPhotosCollection.push(randomArrayItem);
+              }
+
+              if (filteredPhotosCollection.length === 10) {
+                break;
+              }
             }
             break;
           case 'filter-discussed':

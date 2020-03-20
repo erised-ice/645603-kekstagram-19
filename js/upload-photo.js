@@ -27,6 +27,8 @@
     window.util.showDomElement(photoSetupWindow);
     window.util.makeBodyUnscrolled();
     document.addEventListener('keydown', onSetupFormEscPress);
+    window.editPhoto.EFFECTS_RADIO_DEFAULT.checked = true;
+    window.editPhoto.reset();
   };
 
   var cleanPhotoSetupForm = function () {

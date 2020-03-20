@@ -5,13 +5,16 @@
   var EFFECT_LEVEL_DEPTH = document.querySelector('.effect-level__depth');
   var EFFECT_LEVEL_VALUE = document.querySelector('.effect-level__value');
   var EFFECTS_RADIO_COLLECTION = document.querySelectorAll('.effects__radio');
-  var photo = document.querySelector('.img-upload__preview img');
+  var EFFECTS_RADIO_DEFAULT = document.querySelector('#effect-none');
+  var PHOTO = document.querySelector('.img-upload__preview img');
   var slider = document.querySelector('.effect-level');
 
   window.editPhoto = {
     EFFECT_LEVEL_PIN: EFFECT_LEVEL_PIN,
     EFFECT_LEVEL_DEPTH: EFFECT_LEVEL_DEPTH,
     EFFECT_LEVEL_VALUE: EFFECT_LEVEL_VALUE,
+    EFFECTS_RADIO_DEFAULT: EFFECTS_RADIO_DEFAULT,
+    PHOTO: PHOTO,
 
     moveLevelPin: function (evt) {
       evt.preventDefault();
@@ -57,7 +60,13 @@
         EFFECT_LEVEL_DEPTH.style.width = EFFECT_LEVEL_VALUE.value + '%';
         window.editPhoto.changeImgFilterLevel(EFFECT_LEVEL_VALUE.value);
 
-        if (startCoords.y < 620 || startCoords.y > 650 || EFFECT_LEVEL_PIN.offsetLeft > 460 || EFFECT_LEVEL_PIN.offsetLeft < -5) {
+        var clientRectangle = slider.getBoundingClientRect();
+
+        if (startCoords.y < clientRectangle.top
+          || startCoords.y > clientRectangle.top + slider.clientHeight
+          || EFFECT_LEVEL_PIN.offsetLeft > 460
+          || EFFECT_LEVEL_PIN.offsetLeft < -5
+        ) {
           document.removeEventListener('mousemove', onMouseMove);
           document.removeEventListener('mouseup', onMouseUp);
         }
@@ -75,38 +84,40 @@
     changeImgFilter: function (evt) {
       var radioButtonValue = evt.target.value;
 
-      photo.className = '';
-      photo.classList.add('effects__preview--' + radioButtonValue);
-      window.editPhoto.changeImgFilterLevel(100);
       window.editPhoto.reset();
+      window.editPhoto.changeImgFilterLevel(100);
+      PHOTO.classList.add('effects__preview--' + radioButtonValue);
       slider.style.display = radioButtonValue === 'none' ? 'none' : 'block';
     },
     changeImgFilterLevel: function (value) {
-      switch (photo.className) {
+      switch (PHOTO.className) {
         case 'effects__preview--chrome':
-          photo.style.filter = 'grayscale(' + (value / 100) + ')';
+          PHOTO.style.filter = 'grayscale(' + (value / 100) + ')';
           break;
         case 'effects__preview--sepia':
-          photo.style.filter = 'sepia(' + (value / 100) + ')';
+          PHOTO.style.filter = 'sepia(' + (value / 100) + ')';
           break;
         case 'effects__preview--marvin':
-          photo.style.filter = 'invert(' + value + '%)';
+          PHOTO.style.filter = 'invert(' + value + '%)';
           break;
         case 'effects__preview--phobos':
-          photo.style.filter = 'blur(' + (value * 3) / 100 + 'px)';
+          PHOTO.style.filter = 'blur(' + (value * 3) / 100 + 'px)';
           break;
         case 'effects__preview--heat':
-          photo.style.filter = 'brightness(' + ((value * 2) / 100 + 1) + ')';
+          PHOTO.style.filter = 'brightness(' + ((value * 2) / 100 + 1) + ')';
           break;
         case 'effects__preview--none':
         default:
-          photo.removeAttribute('style');
+          window.editPhoto.reset();
       }
     },
     reset: function () {
       EFFECT_LEVEL_PIN.style.left = '100%';
       EFFECT_LEVEL_VALUE.value = 100;
       EFFECT_LEVEL_DEPTH.style.width = '100%';
+      PHOTO.removeAttribute('style');
+      PHOTO.classList = '';
+      slider.style.display = 'none';
     }
   };
 

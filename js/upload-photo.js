@@ -5,7 +5,8 @@
   var photoSetupWindow = document.querySelector('.img-upload__overlay');
   var uploadCancel = document.querySelector('#upload-cancel');
   var imgUploadForm = document.querySelector('.img-upload__form');
-
+  var decreaseScaleControl = document.querySelector('.scale__control--smaller');
+  var increaseScaleControl = document.querySelector('.scale__control--bigger');
 
   var successMessageTemplate = document.querySelector('#success')
     .content
@@ -28,11 +29,13 @@
   };
 
   var cleanPhotoSetupForm = function () {
-    var focusableFormElements = imgUploadForm.querySelectorAll('textarea, input');
+    var focusableFormElements = imgUploadForm.querySelectorAll('.text__hashtags, .text__description');
 
     focusableFormElements.forEach(function (item) {
       item.value = '';
     });
+
+    window.scalePhoto.reset();
   };
 
   var closePhotoSetupForm = function () {
@@ -118,4 +121,7 @@
       closePhotoSetupForm();
     };
   });
+
+  decreaseScaleControl.addEventListener('click', window.scalePhoto.decrease);
+  increaseScaleControl.addEventListener('click', window.scalePhoto.increase);
 })();

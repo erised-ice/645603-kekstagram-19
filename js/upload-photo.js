@@ -7,6 +7,7 @@
   var imgUploadForm = document.querySelector('.img-upload__form');
   var decreaseScaleControl = document.querySelector('.scale__control--smaller');
   var increaseScaleControl = document.querySelector('.scale__control--bigger');
+  var effectLevelPin = document.querySelector('.effect-level__pin');
 
   var successMessageTemplate = document.querySelector('#success')
     .content
@@ -35,7 +36,9 @@
       item.value = '';
     });
 
+    document.querySelector('.effect-level__value').value = 20;
     window.scalePhoto.reset();
+    window.editPhoto.reset();
   };
 
   var closePhotoSetupForm = function () {
@@ -124,4 +127,5 @@
 
   decreaseScaleControl.addEventListener('click', window.scalePhoto.decrease);
   increaseScaleControl.addEventListener('click', window.scalePhoto.increase);
+  effectLevelPin.addEventListener('mousedown', window.editPhoto.moveLevelPin);
 })();

@@ -67,7 +67,9 @@
             filteredPhotosCollection = serverPhotosCollection;
         }
 
-        window.renderPhotos(filteredPhotosCollection);
+        window.util.debounce(function () {
+          window.renderPhotos(filteredPhotosCollection);
+        });
       });
     });
 

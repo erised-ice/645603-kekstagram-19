@@ -8,6 +8,7 @@
   var decreaseScaleControl = document.querySelector('.scale__control--smaller');
   var increaseScaleControl = document.querySelector('.scale__control--bigger');
   var effectLevelPin = document.querySelector('.effect-level__pin');
+  var focusableFormElements = imgUploadForm.querySelectorAll('.text__hashtags, .text__description');
 
   var successMessageTemplate = document.querySelector('#success')
     .content
@@ -19,21 +20,24 @@
     .querySelector('.error');
   var errorMessage = errorMessageTemplate.cloneNode(true);
 
-  var onSetupFormEscPress = function (evt) {
-    window.util.isEscEvent(evt, closePhotoSetupForm);
+  var handleKeydown = function (evt) {
+    var focusable = Array.from(focusableFormElements)
+      .find(function (item) {
+        return item === document.activeElement;
+      });
+
+    window.util.isEscEvent(evt, closePhotoSetupForm, focusable);
   };
 
   var openPhotoSetupForm = function () {
     window.util.showDomElement(photoSetupWindow);
     window.util.makeBodyUnscrolled();
-    document.addEventListener('keydown', onSetupFormEscPress);
+    document.addEventListener('keydown', handleKeydown);
     window.editPhoto.EFFECTS_RADIO_DEFAULT.checked = true;
     window.editPhoto.reset();
   };
 
   var cleanPhotoSetupForm = function () {
-    var focusableFormElements = imgUploadForm.querySelectorAll('.text__hashtags, .text__description');
-
     focusableFormElements.forEach(function (item) {
       item.value = '';
     });
@@ -45,7 +49,7 @@
 
   var closePhotoSetupForm = function () {
     cleanPhotoSetupForm();
-    document.removeEventListener('keydown', onSetupFormEscPress);
+    document.removeEventListener('keydown', handleKeydown);
     window.util.makeBodyScrolled();
     window.util.closeDomElement(photoSetupWindow);
   };
@@ -83,7 +87,7 @@
           main.removeChild(successMessage);
         }
       };
-      document.addEventListener('keydown', onSetupFormEscPress);
+      document.addEventListener('keydown', handleKeydown);
       main.appendChild(successMessage);
 
       var successButton = document.querySelector('.success__button');

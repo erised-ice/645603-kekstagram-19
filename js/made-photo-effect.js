@@ -85,6 +85,7 @@
       var radioButtonValue = evt.target.value;
 
       window.editPhoto.reset();
+      window.scalePhoto.reset();
       window.editPhoto.changeImgFilterLevel(100);
       PHOTO.classList.add('effects__preview--' + radioButtonValue);
       slider.style.display = radioButtonValue === 'none' ? 'none' : 'block';

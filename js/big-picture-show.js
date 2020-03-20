@@ -12,23 +12,15 @@
   var socialFooterText = document.querySelector('.social__footer-text');
   var openedPhoto = null;
 
-  var onSetupFormEscPress = function (evt) {
-    if (evt.keyCode !== 27) {
-      return;
-    }
-
-    if (document.activeElement === socialFooterText) {
-      socialFooterText.blur();
-    } else {
-      window.util.isEscEvent(evt, closeBigPicture);
-    }
+  var handleKeydown = function (evt) {
+    window.util.isEscEvent(evt, closeBigPicture, socialFooterText);
   };
 
   var closeBigPicture = function () {
     socialFooterText.value = '';
     window.util.closeDomElement(bigPicture);
     window.util.makeBodyScrolled();
-    document.removeEventListener('keydown', onSetupFormEscPress);
+    document.removeEventListener('keydown', handleKeydown);
   };
 
   var createComment = function (comment) {
@@ -82,7 +74,7 @@
   window.showBigPicture = function (photo) {
     window.util.showDomElement(bigPicture);
     window.util.makeBodyUnscrolled();
-    document.addEventListener('keydown', onSetupFormEscPress);
+    document.addEventListener('keydown', handleKeydown);
 
     var commentsForRender = photo.comments.length <= 5
       ? photo.comments

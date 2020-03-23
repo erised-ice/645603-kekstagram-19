@@ -12,7 +12,7 @@
   var socialFooterText = document.querySelector('.social__footer-text');
   var openedPhoto = null;
 
-  var handleKeydown = function (evt) {
+  var keydownHandler = function (evt) {
     window.util.isEscEvent(evt, closeBigPicture, socialFooterText);
   };
 
@@ -20,7 +20,7 @@
     socialFooterText.value = '';
     window.util.closeDomElement(bigPicture);
     window.util.makeBodyScrolled();
-    document.removeEventListener('keydown', handleKeydown);
+    document.removeEventListener('keydown', keydownHandler);
   };
 
   var createComment = function (comment) {
@@ -74,7 +74,7 @@
   window.showBigPicture = function (photo) {
     window.util.showDomElement(bigPicture);
     window.util.makeBodyUnscrolled();
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', keydownHandler);
 
     var commentsForRender = photo.comments.length <= 5
       ? photo.comments

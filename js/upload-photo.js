@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
   var uploadFile = document.querySelector('#upload-file');
   var photoSetupWindow = document.querySelector('.img-upload__overlay');
   var uploadCancel = document.querySelector('#upload-cancel');
@@ -20,7 +21,7 @@
     .querySelector('.error');
   var errorMessage = errorMessageTemplate.cloneNode(true);
 
-  var handleKeydown = function (evt) {
+  var keydownHandler = function (evt) {
     var focusable = Array.from(focusableFormElements)
       .find(function (item) {
         return item === document.activeElement;
@@ -32,7 +33,7 @@
   var openPhotoSetupForm = function () {
     window.util.showDomElement(photoSetupWindow);
     window.util.makeBodyUnscrolled();
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', keydownHandler);
     window.editPhoto.EFFECTS_RADIO_DEFAULT.checked = true;
     window.editPhoto.reset();
   };
@@ -49,13 +50,29 @@
 
   var closePhotoSetupForm = function () {
     cleanPhotoSetupForm();
-    document.removeEventListener('keydown', handleKeydown);
+    document.removeEventListener('keydown', keydownHandler);
     window.util.makeBodyScrolled();
     window.util.closeDomElement(photoSetupWindow);
   };
 
   uploadFile.addEventListener('change', function () {
     openPhotoSetupForm();
+    var file = uploadFile.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        window.scalePhoto.PHOTO.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
   });
 
   uploadCancel.addEventListener('click', function () {
@@ -87,7 +104,7 @@
           main.removeChild(successMessage);
         }
       };
-      document.addEventListener('keydown', handleKeydown);
+      document.addEventListener('keydown', keydownHandler);
       main.appendChild(successMessage);
 
       var successButton = document.querySelector('.success__button');
